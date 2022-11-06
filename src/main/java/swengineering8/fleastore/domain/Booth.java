@@ -26,6 +26,9 @@ public class Booth {
     private String info;
 
     @Column
+    private Category category;
+
+    @Column
     @OneToMany()
     private List<Market> markets = new ArrayList<>();
 

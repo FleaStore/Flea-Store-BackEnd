@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import swengineering8.fleastore.service.MarketService;
 import swengineering8.fleastore.service.MemberService;
 
 @Slf4j
@@ -12,5 +13,5 @@ import swengineering8.fleastore.service.MemberService;
 @RequestMapping("/market")
 public class MarketController {
 
-    private final MemberService memberService;
+    private final MarketService marketService;
 }

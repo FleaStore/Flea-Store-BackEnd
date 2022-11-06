@@ -36,6 +36,12 @@ public class Member {
     private String email;
 
     @Column
+    private String nickname;
+
+    @Column
+    private String name;
+
+    @Column
     private String phone_number;
 
     @Column
