@@ -1,4 +1,6 @@
 package swengineering8.fleastore.domain;
 
-public class Category {
+public enum Category {
+
+    GOODS, GROCERY, BOOK, FASHION
 }
