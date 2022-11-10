@@ -5,38 +5,38 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import swengineering8.fleastore.dto.MarketDto;
+import swengineering8.fleastore.dto.BoothDto;
 import swengineering8.fleastore.dto.Response;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 @Slf4j
-public class MarketService {
+public class BoothService {
 
     private final Response response;
 
-    public ResponseEntity<?> getMarkets(int index) {
+    public ResponseEntity<?> getBoothsOfMarket(Long marketId) {
 
         return response.success();
     }
 
-    public ResponseEntity<?> getDetailInfo(Long marketId) {
+    public ResponseEntity<?> getBooth(Long marketId) {
 
         return response.success();
     }
 
-    public ResponseEntity<?> addMarket(MarketDto marketDto, Long memberId) {
+    public ResponseEntity<?> addBooth(BoothDto boothDto, Long marketId) {
 
         return response.success();
     }
 
-    public ResponseEntity<?> updateMarket(MarketDto marketDto, Long marketId) {
+    public ResponseEntity<?> updateBooth(BoothDto boothDto, Long boothId) {
 
         return response.success();
     }
 
-    public ResponseEntity<?> deleteMarket(Long marketId) {
+    public ResponseEntity<?> deleteBooth(Long boothId) {
 
         return response.success();
     }
