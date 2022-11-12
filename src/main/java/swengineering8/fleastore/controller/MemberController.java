@@ -20,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     /**
-     * 유저 정보 가져오기
+     * 유저 정보 가져오기 Principal : JWT Token의 담겨있는 정보를
      */
     @GetMapping("/user")
     public ResponseEntity memberInfo(Principal principal) {

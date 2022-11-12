@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import swengineering8.fleastore.domain.Member;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 import swengineering8.fleastore.dto.LoginDto;
 import swengineering8.fleastore.dto.Response;
@@ -29,6 +30,7 @@ public class AuthService {
 
     public boolean signUp(MemberDto memberDto) {
 
+        memberRepository.save(memberDto.toEntity());
         return true;
     }
 
@@ -41,6 +43,7 @@ public class AuthService {
         /* 실제 검증(사용자 비밀번호 체크)이 이루어지는 부분
          * authenticate 메서드가 실행될 때 CustomUserDetailService에서 만든 loadUserByUserName 메서드 실행
          */
+
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         /* 인증 정보를 기반으로 JWT 토큰 생성 */
@@ -57,6 +60,20 @@ public class AuthService {
 
     public ResponseEntity<?> checkEmail(String email) {
 
+        memberRepository.existsByEmail(email);
+        return response.success();
+    }
+
+    public ResponseEntity<?> checkNickname(String nickname) {
+
+        memberRepository.existsByNickname(nickname);
+
+        return response.success();
+    }
+
+    public ResponseEntity<?> checkAuthenticationNumber(Integer number){
+
+        memberRepository.existsByNumber(number);
         return response.success();
     }
 }

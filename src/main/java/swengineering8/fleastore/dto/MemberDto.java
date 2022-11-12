@@ -1,11 +1,11 @@
 package swengineering8.fleastore.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import swengineering8.fleastore.domain.Member;
+
+
 
 @Getter
-@NoArgsConstructor
 @ToString
 public class MemberDto {
 
@@ -13,9 +13,19 @@ public class MemberDto {
 
     private String name;
 
-    private String nickName;
+    private String nickname;
 
     private String password;
 
-    private String PhoneNumber;
+    private String phone_number;
+    @Builder
+    public Member toEntity() {
+        return Member.builder()
+                .email(email)
+                .name(name)
+                .nickname(nickname)
+                .password(password)
+                .phone_number(phone_number)
+                .build();
+    }
 }

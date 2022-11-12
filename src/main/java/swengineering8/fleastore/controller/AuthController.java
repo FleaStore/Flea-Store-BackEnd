@@ -72,4 +72,19 @@ public class AuthController {
 
         return authService.checkEmail(email);
     }
+
+    @GetMapping("/users/nickname")
+    public ResponseEntity<?> checkNickname(@RequestBody Map<String, String> param) {
+
+        String Nickname = param.get("Nickname");
+
+        return authService.checkNickname(Nickname);
+    }
+
+    public ResponseEntity<?> checkAuthenticationNumber(@RequestBody Map<Integer, Integer> param) {
+
+        Integer Number = param.get("Number");
+
+        return authService.checkAuthenticationNumber(Number);
+    }
 }

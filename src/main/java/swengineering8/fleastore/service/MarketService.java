@@ -2,9 +2,11 @@ package swengineering8.fleastore.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import swengineering8.fleastore.domain.Repository.MarketRepository;
 import swengineering8.fleastore.dto.MarketDto;
 import swengineering8.fleastore.dto.Response;
 
@@ -15,9 +17,11 @@ import swengineering8.fleastore.dto.Response;
 public class MarketService {
 
     private final Response response;
+    private final MarketRepository marketRepository;
 
     public ResponseEntity<?> getMarkets(int index) {
 
+        marketRepository.findAll(Pageable.ofSize(index));
         return response.success();
     }
 

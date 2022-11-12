@@ -19,7 +19,6 @@ public class MemberService {
     private final Response response;
 
     public ResponseEntity<?> memberInfo(Long memberId) {
-
         return response.success();
     }
 

@@ -1,9 +1,6 @@
 package swengineering8.fleastore.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +10,9 @@ import swengineering8.fleastore.service.MemberService;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 @Table(name = "member")
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Member {
@@ -52,5 +49,14 @@ public class Member {
     @OneToMany(mappedBy = "market", cascade = CascadeType.ALL)
     private List<Market> markets = new ArrayList<>();
 
-
+    @Builder
+    public Member(Long id, String password, String email, Authority authority, String nickname, String name, String phone_number){
+        this.email = email;
+        this.authority = authority;
+        this.id = id;
+        this.name = name;
+        this.nickname = nickname;
+        this.password = password;
+        this.phone_number = phone_number;
+    }
 }
