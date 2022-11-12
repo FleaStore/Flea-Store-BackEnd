@@ -81,10 +81,16 @@ public class AuthController {
         return authService.checkNickname(Nickname);
     }
 
-    public ResponseEntity<?> checkAuthenticationNumber(@RequestBody Map<Integer, Integer> param) {
+    public ResponseEntity<?> checkAuthentication(@RequestBody Map<Integer, Integer> param) {
 
         Integer Number = param.get("Number");
 
-        return authService.checkAuthenticationNumber(Number);
+        return authService.checkAuthentication(Number);
+    }
+
+    public ResponseEntity<?> emailAuthentication(@RequestBody Map<String, String> param){
+        String email = param.get("email");
+
+        return authService.emailAuthentication(email);
     }
 }

@@ -71,9 +71,13 @@ public class AuthService {
         return response.success();
     }
 
-    public ResponseEntity<?> checkAuthenticationNumber(Integer number){
+    public ResponseEntity<?> checkAuthentication(Integer number){
 
         memberRepository.existsByNumber(number);
+        return response.success();
+    }
+
+    public ResponseEntity<?> emailAuthentication(String email) {
         return response.success();
     }
 }
