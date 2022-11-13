@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import swengineering8.fleastore.domain.Repository.BoothImgFileRepository;
+import swengineering8.fleastore.domain.Repository.BoothRepository;
 import swengineering8.fleastore.dto.BoothDto;
 import swengineering8.fleastore.dto.Response;
 
@@ -14,6 +16,8 @@ import swengineering8.fleastore.dto.Response;
 @Slf4j
 public class BoothService {
 
+    private final BoothRepository boothRepository;
+    private final BoothImgFileRepository boothImgFileRepository;
     private final Response response;
 
     public ResponseEntity<?> getBoothsOfMarket(Long marketId) {

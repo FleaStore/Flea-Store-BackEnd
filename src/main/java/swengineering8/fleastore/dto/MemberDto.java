@@ -5,7 +5,9 @@ import swengineering8.fleastore.domain.Member;
 
 
 
+
 @Getter
+@NoArgsConstructor
 @ToString
 public class MemberDto {
 

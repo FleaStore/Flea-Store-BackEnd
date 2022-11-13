@@ -41,4 +41,11 @@ public class MemberController {
         return memberService.memberInfo(memberId);
     }
 
+    @PostMapping("user/like/{marketId}")
+    public ResponseEntity<?> toggleLike(@PathVariable Long storeId, Principal principal) {
+        Long memberId = Long.parseLong(principal.getName());
+
+        return memberService.toggleLike(memberId, storeId);
+    }
+
 }

@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import swengineering8.fleastore.domain.Member;
+import swengineering8.fleastore.domain.Repository.AuthCodeRepository;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 import swengineering8.fleastore.dto.LoginDto;
 import swengineering8.fleastore.dto.Response;
@@ -24,6 +24,7 @@ import swengineering8.fleastore.util.TokenProvider;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final AuthCodeRepository authCodeRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final Response response;
