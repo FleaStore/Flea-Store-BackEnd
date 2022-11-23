@@ -38,16 +38,17 @@ public class Market {
     @Column
     private String related_url;
 
-    @Column
-    @OneToMany(mappedBy = "like", cascade = CascadeType.ALL)
-    private List<Like> likes = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column
-    @OneToMany(mappedBy = "market_img_file", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL)
+    private List<Favorite> favorites = new ArrayList<>();
+
+    @Column
+    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL)
     private List<MarketImgFile> imgFiles = new ArrayList<>();
 
-    @Column
-    @OneToMany(mappedBy = "booth", cascade = CascadeType.ALL)
-    private List<Booth> booths = new ArrayList<>();
 
 }

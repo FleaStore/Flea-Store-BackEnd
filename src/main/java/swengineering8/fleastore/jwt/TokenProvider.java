@@ -1,4 +1,4 @@
-package swengineering8.fleastore.util;
+package swengineering8.fleastore.jwt;
 
 
 import io.jsonwebtoken.*;
@@ -28,8 +28,7 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth"; // header key name
     private static final String BEARER_TYPE = "bearer"; // token type
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
     private final Key private_key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -54,19 +53,12 @@ public class TokenProvider {
                 .signWith(private_key, SignatureAlgorithm.HS512)  // header "alg": "HS512" -> HS512: HMAC using SHA-512
                 .compact();
 
-        // Refresh Token 생성
-        String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
-                .signWith(private_key, SignatureAlgorithm.HS512)
-                .compact();
 
         log.info("권한: {}", authorities);
 
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
-                .refreshTokenExpiresIn(REFRESH_TOKEN_EXPIRE_TIME)
-                .refreshToken(refreshToken)
                 .accessTokenExpireIn(ACCESS_TOKEN_EXPIRE_TIME)
                 .authority(authorities)
                 .build();

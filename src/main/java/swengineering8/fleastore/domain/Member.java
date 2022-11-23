@@ -1,11 +1,6 @@
 package swengineering8.fleastore.domain;
 
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import swengineering8.fleastore.service.MemberService;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,6 +21,7 @@ public class Member {
     private String password;
 
     @Column
+    @Setter
     @Enumerated(EnumType.STRING) // enum 이름을 DB에 저장
     private Authority authority;
 
@@ -39,24 +35,23 @@ public class Member {
     private String name;
 
     @Column
-    private String phone_number;
+    private String phoneNumber;
 
-    @Column
-    @OneToMany(mappedBy = "like", cascade = CascadeType.ALL)
-    private List<Like> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Favorite> favorites = new ArrayList<>();
 
-    @Column
-    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Market> markets = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String password, String email, Authority authority, String nickname, String name, String phone_number){
+    public Member(Long id, String password, String email, Authority authority, String nickname, String name, String phoneNumber){
         this.email = email;
         this.authority = authority;
         this.id = id;
         this.name = name;
         this.nickname = nickname;
         this.password = password;
-        this.phone_number = phone_number;
+        this.phoneNumber = phoneNumber;
     }
+
 }

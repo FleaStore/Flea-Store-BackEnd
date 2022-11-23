@@ -15,7 +15,6 @@ public class AuthCode {
     @Column(name = "auth_code_id")
     private Long id;
 
-
     @Column
     private String authCode;
 

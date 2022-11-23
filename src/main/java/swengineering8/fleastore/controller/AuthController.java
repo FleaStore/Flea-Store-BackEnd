@@ -47,6 +47,7 @@ public class AuthController {
     @PostMapping("/user/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto, Errors errors) {
 
+        //validation check
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }
@@ -57,9 +58,12 @@ public class AuthController {
     /**
      * 로그아웃
      */
-    public ResponseEntity<?> logout(@RequestBody TokenDto tokenDto) {
+    @PostMapping("/user/logout")
+    public ResponseEntity<?> logout(@RequestBody Map<String, String> param) {
 
-        return authService.logout(tokenDto);
+        String accessToken = param.get("accessToken");
+
+        return authService.logout(accessToken);
     }
 
     /**
@@ -76,18 +80,20 @@ public class AuthController {
     @GetMapping("/users/nickname")
     public ResponseEntity<?> checkNickname(@RequestBody Map<String, String> param) {
 
-        String Nickname = param.get("Nickname");
+        String Nickname = param.get("nickname");
 
         return authService.checkNickname(Nickname);
     }
 
-    public ResponseEntity<?> checkAuthentication(@RequestBody Map<Integer, Integer> param) {
+    @GetMapping("/users/auth-email")
+    public ResponseEntity<?> checkAuthentication(@RequestBody Map<String, String> param) {
 
-        Integer Number = param.get("Number");
+        String code = param.get("code");
 
-        return authService.checkAuthentication(Number);
+        return authService.checkAuthentication(code);
     }
 
+    @GetMapping("/users/send-email")
     public ResponseEntity<?> emailAuthentication(@RequestBody Map<String, String> param){
         String email = param.get("email");
 

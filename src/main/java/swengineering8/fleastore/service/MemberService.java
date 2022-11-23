@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import swengineering8.fleastore.domain.Repository.LikeRepository;
+import swengineering8.fleastore.domain.Repository.FavoriteRepository;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 import swengineering8.fleastore.dto.MemberDto;
 import swengineering8.fleastore.dto.Response;
@@ -17,7 +17,7 @@ import swengineering8.fleastore.dto.Response;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final LikeRepository likeRepository;
+    private final FavoriteRepository favoriteRepository;
     private final Response response;
 
     public ResponseEntity<?> memberInfo(Long memberId) {

@@ -1,6 +1,7 @@
 package swengineering8.fleastore.dto;
 
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import swengineering8.fleastore.domain.Member;
 
 
@@ -19,15 +20,15 @@ public class MemberDto {
 
     private String password;
 
-    private String phone_number;
+    private String phoneNumber;
     @Builder
-    public Member toEntity() {
+    public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
                 .name(name)
                 .nickname(nickname)
-                .password(password)
-                .phone_number(phone_number)
+                .password(passwordEncoder.encode(password))
+                .phoneNumber(phoneNumber)
                 .build();
     }
 }

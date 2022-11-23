@@ -33,7 +33,7 @@ public class Booth {
     private List<Market> markets = new ArrayList<>();
 
     @Column
-    @OneToMany(mappedBy = "booth_img_file", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "booth", cascade = CascadeType.ALL)
     private List<BoothImgFile> imgFiles = new ArrayList<>();
 
 }

@@ -26,4 +26,8 @@ public class BoothImgFile {
     @Column
     private String originalName;
 
+    @ManyToOne
+    @JoinColumn(name = "booth_id")
+    private Booth booth;
+
 }

@@ -6,15 +6,22 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "like")
+@Table(name = "favorite")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Like {
+public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
+    @Column(name = "favorite_id")
     private Long id;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "market_id")
+    private Market market;
 }

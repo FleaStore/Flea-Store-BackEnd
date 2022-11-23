@@ -25,4 +25,8 @@ public class MarketImgFile {
 
     @Column
     private String originalName;
+
+    @ManyToOne
+    @JoinColumn(name = "market_id")
+    private Market market;
 }
