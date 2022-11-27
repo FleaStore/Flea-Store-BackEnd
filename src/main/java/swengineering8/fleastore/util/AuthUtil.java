@@ -45,7 +45,7 @@ public class AuthUtil {
     public static String getEmailContent(String code) {
         String content="";
         content+= "<div style='margin:100px;'>";
-        content+= "<h1> 안녕하세요 Ari입니다. </h1>";
+        content+= "<h1> 안녕하세요 벼룩창고입니다. </h1>";
         content+= "<br>";
         content+= "<p>아래 코드를 인증 창으로 돌아가 입력해주세요<p>";
         content+= "<br>";

@@ -156,7 +156,7 @@ public class AuthService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
             helper.setTo(email);
-            helper.setFrom("aritest0222@gmail.com");
+            helper.setFrom("ckd0325@ajou.ac.kr");
             helper.setSubject(subject);
             helper.setText(content, true);
             javaMailSender.send(mimeMessage);

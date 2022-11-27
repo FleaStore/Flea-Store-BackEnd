@@ -69,7 +69,7 @@ public class AuthController {
     /**
      * 이메일 중복 체크
      */
-    @GetMapping("/users/email")
+    @PostMapping("/users/email")
     public ResponseEntity<?> checkEmail(@RequestBody Map<String, String> param) {
 
         String email = param.get("email");
@@ -77,6 +77,9 @@ public class AuthController {
         return authService.checkEmail(email);
     }
 
+    /**
+     * 닉네임 중복 체크
+     */
     @GetMapping("/users/nickname")
     public ResponseEntity<?> checkNickname(@RequestBody Map<String, String> param) {
 
@@ -85,6 +88,9 @@ public class AuthController {
         return authService.checkNickname(Nickname);
     }
 
+    /**
+     * 인증코드 일치 확인
+     */
     @GetMapping("/users/auth-email")
     public ResponseEntity<?> checkAuthentication(@RequestBody Map<String, String> param) {
 
@@ -93,6 +99,9 @@ public class AuthController {
         return authService.checkAuthentication(code);
     }
 
+    /**
+     * 인증 이메일 전송
+     */
     @GetMapping("/users/send-email")
     public ResponseEntity<?> emailAuthentication(@RequestBody Map<String, String> param){
         String email = param.get("email");
