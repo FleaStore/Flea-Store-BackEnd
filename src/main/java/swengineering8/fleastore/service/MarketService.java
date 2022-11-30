@@ -12,7 +12,7 @@ import swengineering8.fleastore.dto.MarketDto;
 import swengineering8.fleastore.dto.Response;
 
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Service
 @Slf4j
 public class MarketService {
