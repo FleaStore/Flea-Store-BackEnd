@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Table(name = "member")
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class Member {
 
@@ -55,11 +54,18 @@ public class Member {
         this.phoneNumber = phoneNumber;
     }
 
-    public void changeInfo(String email, String nickname, String name, String phoneNumber) {
-        this.email = email;
+    public void changeInfo(String nickname, String name, String phoneNumber) {
         this.nickname = nickname;
         this.name = name;
         this. phoneNumber = phoneNumber;
     }
 
+    public boolean isFavoriteMarket(Market market){
+        return favorites.stream().map(Favorite :: getMarket)
+                .anyMatch(findMarket -> findMarket.getId() == market.getId());
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }

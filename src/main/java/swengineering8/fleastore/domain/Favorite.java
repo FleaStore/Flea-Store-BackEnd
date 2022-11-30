@@ -24,4 +24,9 @@ public class Favorite {
     @ManyToOne
     @JoinColumn(name = "market_id")
     private Market market;
+
+    public Favorite(Member member, Market market) {
+        this.member = member;
+        this.market = market;
+    }
 }
