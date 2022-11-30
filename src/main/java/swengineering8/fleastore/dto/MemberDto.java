@@ -31,4 +31,11 @@ public class MemberDto {
                 .phoneNumber(phoneNumber)
                 .build();
     }
+
+    public MemberDto(String email, String name, String nickname, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+    }
 }

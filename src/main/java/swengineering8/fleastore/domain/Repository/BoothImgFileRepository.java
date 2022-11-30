@@ -6,4 +6,7 @@ import swengineering8.fleastore.domain.BoothImgFile;
 
 @Repository
 public interface BoothImgFileRepository extends JpaRepository<BoothImgFile, Long> {
+
+    @Override
+    void deleteById(Long id);
 }

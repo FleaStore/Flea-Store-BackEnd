@@ -1,6 +1,7 @@
 package swengineering8.fleastore.domain;
 
 import lombok.*;
+import swengineering8.fleastore.dto.MemberDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -52,6 +53,13 @@ public class Member {
         this.nickname = nickname;
         this.password = password;
         this.phoneNumber = phoneNumber;
+    }
+
+    public void changeInfo(String email, String nickname, String name, String phoneNumber) {
+        this.email = email;
+        this.nickname = nickname;
+        this.name = name;
+        this. phoneNumber = phoneNumber;
     }
 
 }

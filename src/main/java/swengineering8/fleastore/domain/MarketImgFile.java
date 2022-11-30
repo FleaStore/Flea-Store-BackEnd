@@ -1,6 +1,7 @@
 package swengineering8.fleastore.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,12 @@ public class MarketImgFile {
     @ManyToOne
     @JoinColumn(name = "market_id")
     private Market market;
+
+    @Builder
+    public MarketImgFile(Market market, String fileName, String originalName, String imgUrl){
+        this.market = market;
+        this.fileName = fileName;
+        this.originalName = originalName;
+        this.imgUrl = imgUrl;
+    }
 }

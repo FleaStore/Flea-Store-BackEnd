@@ -1,10 +1,16 @@
 package swengineering8.fleastore.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import swengineering8.fleastore.domain.Category;
 
 import java.util.List;
 
-public class BoothDto {
+@AllArgsConstructor
+@Getter
+public class
+BoothDto {
+    private Long BoothId;
 
     private String name;
 
@@ -12,5 +18,10 @@ public class BoothDto {
 
     private Category category;
 
-    private List<String> images;
+    private List<String> existingImages;
+
+    public void setBoothId(Long boothId) {
+        BoothId = boothId;
+    }
+
 }

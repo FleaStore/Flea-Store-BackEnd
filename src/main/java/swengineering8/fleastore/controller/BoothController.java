@@ -4,13 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import swengineering8.fleastore.dto.BoothDto;
 import swengineering8.fleastore.service.BoothService;
+
+import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/market")
+@RequestMapping("/booth")
 public class BoothController {
 
     private final BoothService boothService;
@@ -18,8 +22,8 @@ public class BoothController {
     /**
      * 해당 마켓이 가지는 모든 부스 정보 반환
      */
-    @GetMapping("/market/{marketId}/booth/list")
-    public ResponseEntity<?> getBoothsOfMarket(@PathVariable Long marketId) {
+    @GetMapping("/list")
+    public ResponseEntity<?> getBoothsOfMarket(@RequestParam Long marketId) throws IOException {
 
         return boothService.getBoothsOfMarket(marketId);
     }
@@ -27,8 +31,8 @@ public class BoothController {
     /**
      * 특정 부스 정보 가져오기
      */
-    @GetMapping("/booth/{boothId}")
-    public ResponseEntity<?> getBooth(@PathVariable Long boothId) {
+    @GetMapping("")
+    public ResponseEntity<?> getBooth(@RequestParam Long boothId) throws IOException {
 
         return boothService.getBooth(boothId);
     }
@@ -36,26 +40,27 @@ public class BoothController {
     /**
      * 마켓 내 부스 생성
      */
-    @PostMapping("/market/{marketId}/booth/create")
-    public ResponseEntity<?> addBooth(@RequestBody BoothDto boothDto, @PathVariable Long marketId) {
+    @PostMapping("")
+    public ResponseEntity<?> addBooth(@ModelAttribute BoothDto boothDto, @RequestParam(value = "images", required = false) List<MultipartFile> images,
+                                      @RequestParam Long marketId) throws IOException {
 
-        return boothService.addBooth(boothDto, marketId);
+        return boothService.addBooth(boothDto, images, marketId);
     }
 
     /**
      * 해당 부스 정보 업데이트
      */
-    @PutMapping("/booth/update/{boothId}")
-    public ResponseEntity<?> updateBooth(@RequestBody BoothDto boothDto, @PathVariable Long boothId) {
+    @PutMapping("")
+    public ResponseEntity<?> updateBooth(@ModelAttribute BoothDto boothDto, @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
 
-        return boothService.updateBooth(boothDto, boothId);
+        return boothService.updateBooth(boothDto, images);
     }
 
     /**
      * 부스 삭제
      */
-    @DeleteMapping("booth/delete/{boothId}")
-    public ResponseEntity<?> deleteMarket(@PathVariable Long boothId) {
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteMarket(@RequestParam Long boothId) {
 
         return boothService.deleteBooth(boothId);
     }

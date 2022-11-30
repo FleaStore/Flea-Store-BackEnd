@@ -1,6 +1,7 @@
 package swengineering8.fleastore.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,5 +30,13 @@ public class BoothImgFile {
     @ManyToOne
     @JoinColumn(name = "booth_id")
     private Booth booth;
+
+    @Builder
+    public BoothImgFile(Booth booth, String fileName, String originalName, String imgUrl){
+        this.booth = booth;
+        this.fileName = fileName;
+        this.originalName = originalName;
+        this.imgUrl = imgUrl;
+    }
 
 }

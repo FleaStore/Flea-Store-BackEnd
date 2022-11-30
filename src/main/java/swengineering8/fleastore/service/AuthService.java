@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swengineering8.fleastore.domain.Authority;
 import swengineering8.fleastore.domain.Member;
-import swengineering8.fleastore.domain.Repository.AuthCodeRepository;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 import swengineering8.fleastore.dto.LoginDto;
 import swengineering8.fleastore.dto.Response;
@@ -33,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 public class AuthService {
 
     private final MemberRepository memberRepository;
-    private final AuthCodeRepository authCodeRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
