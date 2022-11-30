@@ -36,9 +36,9 @@ public class MemberController {
     @PutMapping("/user")
     public ResponseEntity<?> updateMember(@RequestBody MemberDto memberDto, Principal principal) {
 
-        long memberId = Long.parseLong(principal.getName());
+        Long memberId = Long.parseLong(principal.getName());
 
-        return memberService.memberInfo(memberId);
+        return memberService.updateMember(memberDto, memberId);
     }
 
     @PostMapping("user/like/{marketId}")
@@ -47,5 +47,6 @@ public class MemberController {
 
         return memberService.toggleLike(memberId, storeId);
     }
+
 
 }

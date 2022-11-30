@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swengineering8.fleastore.domain.Authority;
 import swengineering8.fleastore.domain.Member;
-import swengineering8.fleastore.domain.Repository.AuthCodeRepository;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 import swengineering8.fleastore.dto.LoginDto;
 import swengineering8.fleastore.dto.Response;
@@ -33,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 public class AuthService {
 
     private final MemberRepository memberRepository;
-    private final AuthCodeRepository authCodeRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
@@ -156,7 +154,7 @@ public class AuthService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
             helper.setTo(email);
-            helper.setFrom("aritest0222@gmail.com");
+            helper.setFrom("ckd0325@ajou.ac.kr");
             helper.setSubject(subject);
             helper.setText(content, true);
             javaMailSender.send(mimeMessage);
