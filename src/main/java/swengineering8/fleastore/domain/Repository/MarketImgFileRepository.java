@@ -6,4 +6,6 @@ import swengineering8.fleastore.domain.MarketImgFile;
 
 @Repository
 public interface MarketImgFileRepository extends JpaRepository<MarketImgFile, Long> {
+    @Override
+    void deleteById(Long id);
 }
