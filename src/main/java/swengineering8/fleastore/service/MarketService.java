@@ -56,15 +56,6 @@ public class MarketService {
         }
 
         return response.success(responseList, "마켓 리스트", HttpStatus.OK);
-
-
-        //response.success(responseList, "유저리스트 반환", HttpStatus.OK);
-
-
-        //return marketList;
-//        Market market = marketRepository.findAll(Pageable.ofSize(index)); // findAll로 인덱스만큼 페이지네이션 처리하기
-//        MarketDto marketdto = new MarketDto(market.getId(), market.getName(), market.getAddress(), market.getStart_date(), market.getEnd_date(), market.getInfo(), market.getRelated_url(), getMarketImages(market));
-//        return response.success(marketdto, "마켓 정보", HttpStatus.OK);
     }
 
     /**
@@ -74,7 +65,6 @@ public class MarketService {
         Market market = marketRepository.findById(marketId).orElse(null);
 
         MarketDto marketdto = new MarketDto(market.getId(), market.getName(), market.getAddress(), market.getStart_date(), market.getEnd_date(), market.getInfo(), market.getRelated_url(), getMarketImages(market));
-
 
         return response.success(marketdto, "마켓 정보", HttpStatus.OK);
     }
@@ -89,18 +79,20 @@ public class MarketService {
         marketRepository.save(newMarket);
         marketDto.setMarketId(newMarket.getId());
 
-        return updateMarket(marketDto, images);
+        return updateMarket(marketDto, images, memberId);
     }
 
     /**
      * 마켓 정보 변경
      */
     public ResponseEntity<?> updateMarket(MarketDto marketDto,
-                                          List<MultipartFile> images) throws IOException {
+                                          List<MultipartFile> images, Long memberId) throws IOException {
 
         Market market = marketRepository.findById(marketDto.getMarketId()).orElse(null);
 
-        for (MarketImgFile imgFile : market.getImgFiles()) {
+        if(market.getMember().getId() == memberId) {
+
+            for (MarketImgFile imgFile : market.getImgFiles()) {
             File file = new File(imgFile.getImgUrl() + imgFile.getFileName());
             if (file.exists()) {
                 file.delete();
@@ -114,26 +106,36 @@ public class MarketService {
         marketRepository.save(market);
 
         return response.success("마켓정보가 성공적으로 반영되었습니다.");
+        }
+        else{
+            return response.fail("해당 유저의 마켓이 아닙니다.",HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
      * 마켓 삭제
      */
-    public ResponseEntity<?> deleteMarket(Long marketId) {
+    public ResponseEntity<?> deleteMarket(Long marketId, Long memberId) {
 
         Market market = marketRepository.findById(marketId).orElse(null);
 
-        for (MarketImgFile imgFile : market.getImgFiles()) {
-            File file = new File(imgFile.getImgUrl() + imgFile.getFileName());
-            if (file.exists()) {
-                file.delete();
+        if(market.getMember().getId() == memberId) {
+            for (MarketImgFile imgFile : market.getImgFiles()) {
+                File file = new File(imgFile.getImgUrl() + imgFile.getFileName());
+                if (file.exists()) {
+                    file.delete();
+                }
             }
+            market.getImgFiles().clear();
+
+            marketRepository.delete(market);
+
+            return response.success("마켓이 성공적으로 삭제되었습니다.");
         }
-        market.getImgFiles().clear();
+        else{
+            return response.fail("해당 유저의 마켓이 아닙니다.",HttpStatus.BAD_REQUEST);
+        }
 
-        marketRepository.delete(market);
-
-        return response.success("마켓이 성공적으로 삭제되었습니다.");
     }
 
     @Transactional

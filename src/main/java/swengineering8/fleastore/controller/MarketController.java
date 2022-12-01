@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import swengineering8.fleastore.domain.Market;
@@ -40,7 +42,7 @@ public class MarketController {
      * 마켓 생성정보 가져오기
      */
     @GetMapping("")
-    public ResponseEntity<?> getDetailInfo(@RequestParam("marketId") Long marketId) throws IOException {
+    public ResponseEntity<?> getDetailInfo(@RequestParam("marketId") Long marketId, Principal principal) throws IOException {
 
         return marketService.getDetailInfo(marketId);
     }
@@ -55,24 +57,26 @@ public class MarketController {
         long memberId = Long.parseLong(principal.getName());
 
         return marketService.addMarket(marketDto, images, memberId);
-            //return response.success("마켓 추가에 성공했습니다.");
     }
 
     /**
      * 마켓 정보 변경
      */
     @PutMapping("")
-    public ResponseEntity<?> updateMarket(List<MultipartFile> images, @ModelAttribute MarketDto marketDto) throws IOException {
-
-        return marketService.updateMarket(marketDto, images);
+    public ResponseEntity<?> updateMarket(List<MultipartFile> images, @ModelAttribute MarketDto marketDto, Principal principal) throws IOException {
+        long memberId = Long.parseLong(principal.getName());
+        return marketService.updateMarket(marketDto, images, memberId);
     }
 
     /**
      * 마켓 삭제
     */
     @DeleteMapping("")
-    public ResponseEntity<?> deleteMarket(@RequestParam Long marketId) {
+    public ResponseEntity<?> deleteMarket(@RequestParam Long marketId, Principal principal, Authentication authentication) {
 
-        return marketService.deleteMarket(marketId);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        System.out.println(userDetails.getUsername());
+        long memberId = Long.parseLong(principal.getName());
+        return marketService.deleteMarket(marketId, memberId);
     }
 }
