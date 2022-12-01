@@ -80,7 +80,7 @@ public class AuthController {
     /**
      * 닉네임 중복 체크
      */
-    @GetMapping("/users/nickname")
+    @PostMapping("/users/nickname")
     public ResponseEntity<?> checkNickname(@RequestBody Map<String, String> param) {
 
         String Nickname = param.get("nickname");
@@ -91,7 +91,7 @@ public class AuthController {
     /**
      * 인증코드 일치 확인
      */
-    @GetMapping("/users/auth-email")
+    @PostMapping("/users/auth-email")
     public ResponseEntity<?> checkAuthentication(@RequestBody Map<String, String> param) {
 
         String code = param.get("code");
@@ -102,7 +102,7 @@ public class AuthController {
     /**
      * 인증 이메일 전송
      */
-    @GetMapping("/users/send-email")
+    @PostMapping("/users/send-email")
     public ResponseEntity<?> emailAuthentication(@RequestBody Map<String, String> param){
         String email = param.get("email");
 
