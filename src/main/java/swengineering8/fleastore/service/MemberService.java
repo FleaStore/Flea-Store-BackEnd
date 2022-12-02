@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import swengineering8.fleastore.domain.Authority;
 import swengineering8.fleastore.domain.Favorite;
 import swengineering8.fleastore.domain.Market;
 import swengineering8.fleastore.domain.Member;
@@ -88,5 +89,11 @@ public class MemberService {
         favoriteRepository.save(favorite);
 
         return response.success("좋아요 목록에 성공적으로 저장했습니다.");
+    }
+
+    public ResponseEntity<?> changeAuthority(Long memberId, Authority authority){
+        Member member = memberRepository.findById(memberId).orElse(null);
+        member.setAuthority(authority);
+        return response.success("권한을 성공적으로 변경하였습니다.");
     }
 }

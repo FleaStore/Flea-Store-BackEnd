@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import swengineering8.fleastore.domain.Authority;
 import swengineering8.fleastore.dto.MemberDto;
 import swengineering8.fleastore.dto.Response;
 import swengineering8.fleastore.service.MemberService;
@@ -38,9 +39,7 @@ public class MemberController {
      */
     @PutMapping("")
     public ResponseEntity<?> updateMember(@RequestBody MemberDto memberDto, Principal principal) {
-
         Long memberId = Long.parseLong(principal.getName());
-
         return memberService.updateMember(memberDto, memberId);
     }
 
@@ -61,6 +60,16 @@ public class MemberController {
 
         return memberService.toggleLike(marketId, memberId);
     }
+
+    /**
+     * 유저 권한 변경
+     */
+    @PutMapping("/auth")
+    public ResponseEntity<?> changeAuthority(@RequestParam Authority authority, Principal principal){
+        Long memberId = Long.parseLong(principal.getName());
+        return memberService.changeAuthority(memberId,authority);
+    }
+
 
 
 }
