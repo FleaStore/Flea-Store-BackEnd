@@ -1,26 +1,22 @@
 package swengineering8.fleastore.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import springfox.documentation.annotations.ApiIgnore;
-import swengineering8.fleastore.domain.Market;
-import swengineering8.fleastore.domain.MarketImgFile;
-import swengineering8.fleastore.domain.Member;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-@ApiModel(value = "마켓 조회,추가 정보", description = "마켓 조회,추가에 필요한 데이터")
+
+
+@ApiModel(value = "마켓 수정 정보", description = "마켓 수정에 필요한 데이터")
 @Getter
 @AllArgsConstructor
 @ToString
-public class MarketDto {
+public class MarketUpdateDto {
 
-    private Long MarketId;
     @ApiModelProperty(value = "마켓 이름", required = true, example = "Flea store")
     private String name;
     @ApiModelProperty(value = "마켓 주", required = true, example = "경기도 수원시")
@@ -42,21 +38,6 @@ public class MarketDto {
     @ApiModelProperty(value = "SNS 주소", required = true, example = "www.naver.com")
     private String relatedUrl;
 
-    private List<String> existingImages;
+    //private List<String> existingImages;
 
-    public void setMarketId(Long marketId){
-        MarketId = marketId;
-    }
-
-
-//    @Builder
-//    public Market toEntity() {
-//        return Market.builder()
-//                .name(name)
-//                .address(address)
-//                .startDate(startDate)
-//                .endDate(endDate)
-//                .info(info)
-//                .build();
-//    }
 }

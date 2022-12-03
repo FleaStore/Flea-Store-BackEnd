@@ -18,6 +18,7 @@ import swengineering8.fleastore.domain.MarketImgFile;
 import swengineering8.fleastore.domain.Repository.MarketImgFileRepository;
 import swengineering8.fleastore.domain.Repository.MarketRepository;
 import swengineering8.fleastore.dto.MarketDto;
+import swengineering8.fleastore.dto.MarketUpdateDto;
 import swengineering8.fleastore.dto.Response;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 
@@ -55,7 +56,7 @@ public class MarketService {
             responseList.add(marketdto);
         }
 
-        return response.success(responseList, "마켓 리스트", HttpStatus.OK);
+        return response.success(responseList, "마켓 리스트 불러오기 성공", HttpStatus.OK);
     }
 
     /**
@@ -72,23 +73,22 @@ public class MarketService {
     /**
      * 요청 보낸 유저의 마켓을 추가
      */
-    public ResponseEntity<?> addMarket(MarketDto marketDto, List<MultipartFile> images, Long memberId) throws IOException {
+    public ResponseEntity<?> addMarket(MarketUpdateDto marketDto, List<MultipartFile> images, Long memberId) throws IOException {
 
         Market newMarket = new Market();
         newMarket.setUser(memberRepository.findById(memberId).orElse(null));
         marketRepository.save(newMarket);
-        marketDto.setMarketId(newMarket.getId());
 
-        return updateMarket(marketDto, images, memberId);
+        return updateMarket(marketDto, images, memberId, newMarket.getId());
     }
 
     /**
      * 마켓 정보 변경
      */
-    public ResponseEntity<?> updateMarket(MarketDto marketDto,
-                                          List<MultipartFile> images, Long memberId) throws IOException {
+    public ResponseEntity<?> updateMarket(MarketUpdateDto marketDto,
+                                          List<MultipartFile> images, Long memberId, Long marketId) throws IOException {
 
-        Market market = marketRepository.findById(marketDto.getMarketId()).orElse(null);
+        Market market = marketRepository.findById(marketId).orElse(null);
 
         if(market.getMember().getId() == memberId) {
 
