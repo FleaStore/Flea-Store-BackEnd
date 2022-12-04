@@ -29,6 +29,7 @@ public class MemberController {
     @GetMapping("")
     public ResponseEntity memberInfo(Principal principal) {
 
+        log.info("id: {}", principal.getName());
         long memberId = Long.parseLong(principal.getName());
 
         return memberService.memberInfo(memberId);
