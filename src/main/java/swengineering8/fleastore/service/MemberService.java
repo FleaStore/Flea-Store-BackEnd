@@ -7,17 +7,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import swengineering8.fleastore.domain.Authority;
-import swengineering8.fleastore.domain.Favorite;
-import swengineering8.fleastore.domain.Market;
-import swengineering8.fleastore.domain.Member;
+import swengineering8.fleastore.domain.*;
 import swengineering8.fleastore.domain.Repository.FavoriteRepository;
 import swengineering8.fleastore.domain.Repository.MarketRepository;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
+import swengineering8.fleastore.domain.Repository.PermissionRequestRepository;
 import swengineering8.fleastore.dto.MemberDto;
+import swengineering8.fleastore.dto.PermissionRequestDto;
 import swengineering8.fleastore.dto.Response;
+import swengineering8.fleastore.dto.SimpleFavoriteDto;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -29,6 +32,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
     private final MarketRepository marketRepository;
+    private final PermissionRequestRepository permissionRequestRepository;
+    private final MarketService marketService;
     private final PasswordEncoder passwordEncoder;
     private final Response response;
 
@@ -91,9 +96,36 @@ public class MemberService {
         return response.success("좋아요 목록에 성공적으로 저장했습니다.");
     }
 
+    public ResponseEntity<?> getFavoriteMarkets(Long memberId) throws IOException {
+        Member member = memberRepository.findById(memberId).orElse(null);
+        List<Favorite> favorites = member.getFavorites();
+        List<SimpleFavoriteDto> results = new ArrayList<>();
+
+        for (Favorite favorite : favorites) {
+            Market market = favorite.getMarket();
+
+            results.add(new SimpleFavoriteDto(market.getId(), market.getMember().getNickname(), market.getName(), marketService.getMarketImages(market).get(0)));
+        }
+
+        return response.success(results, "좋아요 가게 목록", HttpStatus.OK);
+    }
+
     public ResponseEntity<?> changeAuthority(Long memberId, Authority authority){
         Member member = memberRepository.findById(memberId).orElse(null);
         member.setAuthority(authority);
         return response.success("권한을 성공적으로 변경하였습니다.");
+    }
+
+    @Transactional
+    public ResponseEntity<?> requestPermission(PermissionRequestDto request, Long memberId) {
+
+        Member member = memberRepository.findById(memberId).orElse(null);
+
+        PermissionRequest permissionRequest = request.toEntity();
+        permissionRequest.setMember(member);
+
+        permissionRequestRepository.save(permissionRequest);
+
+        return response.success("권한 요청이 전송되었습니다.");
     }
 }

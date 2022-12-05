@@ -7,10 +7,12 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import swengineering8.fleastore.domain.Authority;
 import swengineering8.fleastore.dto.MemberDto;
+import swengineering8.fleastore.dto.PermissionRequestDto;
 import swengineering8.fleastore.dto.Response;
 import swengineering8.fleastore.service.MemberService;
 import swengineering8.fleastore.util.Helper;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Map;
 
@@ -62,15 +64,30 @@ public class MemberController {
         return memberService.toggleLike(marketId, memberId);
     }
 
+    @GetMapping("/like-list")
+    public ResponseEntity<?> getFavoriteMarkets(Principal principal) throws IOException {
+        Long memberId = Long.parseLong(principal.getName());
+
+        return memberService.getFavoriteMarkets(memberId);
+
+    }
+
     /**
      * 유저 권한 변경
      */
     @PutMapping("/auth")
     public ResponseEntity<?> changeAuthority(@RequestParam Authority authority, Principal principal){
         Long memberId = Long.parseLong(principal.getName());
-        return memberService.changeAuthority(memberId,authority);
+        return memberService.changeAuthority(memberId, authority);
     }
 
+    @PostMapping("/permission-request")
+    public ResponseEntity<?> requestPermission(@RequestBody PermissionRequestDto permissionRequest, Principal principal) {
+
+        Long memberId = Long.valueOf(principal.getName());
+
+        return memberService.requestPermission(permissionRequest, memberId);
+    }
 
 
 }

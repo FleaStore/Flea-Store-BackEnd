@@ -27,12 +27,12 @@ public class MarketDto {
     private String address;
 
     @ApiModelProperty(value = "시작날짜", required = true, example = "2022/12/01")
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd", timezone = "/Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd", timezone = "/Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate startDate;
 
     @ApiModelProperty(value = "마감날짜", required = true, example = "2022/12/01")
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd", timezone = "/Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd", timezone = "/Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate endDate;
 

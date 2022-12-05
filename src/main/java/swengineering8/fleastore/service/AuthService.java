@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,18 +13,22 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import swengineering8.fleastore.domain.Authority;
+import swengineering8.fleastore.domain.Market;
 import swengineering8.fleastore.domain.Member;
+import swengineering8.fleastore.domain.PermissionRequest;
+import swengineering8.fleastore.domain.Repository.MarketRepository;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
-import swengineering8.fleastore.dto.LoginDto;
-import swengineering8.fleastore.dto.Response;
-import swengineering8.fleastore.dto.MemberDto;
-import swengineering8.fleastore.dto.TokenDto;
+import swengineering8.fleastore.domain.Repository.PermissionRequestRepository;
+import swengineering8.fleastore.dto.*;
 import swengineering8.fleastore.jwt.TokenProvider;
 import swengineering8.fleastore.util.AuthUtil;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -32,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final PermissionRequestRepository permissionRequestRepository;
+    private final MarketRepository marketRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
@@ -169,5 +176,57 @@ public class AuthService {
                 .set(code, email, 5*60000, TimeUnit.MILLISECONDS);
 
         return response.success();
+    }
+
+    public ResponseEntity<?> getPermissionRequestList() {
+
+        List<PermissionRequest> requests = permissionRequestRepository.findAll();
+        List<SimpleRequestDto> results = new ArrayList<>();
+
+        for (PermissionRequest request : requests) {
+            results.add(new SimpleRequestDto(request.getId(), request.getMember().getName(),
+                    request.getMember().getEmail(), request.getMember().getPhoneNumber()));
+        }
+
+        return response.success(results, "권한 요청 리스트", HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> requestDetail(Long requestId) {
+
+        PermissionRequest permissionRequest = permissionRequestRepository.findById(requestId).orElse(null);
+
+        PermissionRequestDto permissionRequestDto = permissionRequest.toDto();
+
+        return response.success(permissionRequestDto, "권한 요청 상세 정보", HttpStatus.OK);
+
+    }
+
+    @Transactional
+    public ResponseEntity<?> requestAccept(Long requestId) {
+
+        PermissionRequest permissionRequest = permissionRequestRepository.findById(requestId).orElse(null);
+        Member member = memberRepository.findById(permissionRequest.getMember().getId()).orElse(null);
+
+        member.setAuthority(Authority.ROLE_OWNER);
+        memberRepository.save(member);
+
+        Market market = permissionRequest.toMarket();
+        marketRepository.save(market);
+
+        permissionRequestRepository.delete(permissionRequest);
+
+        return response.success("요청이 승인되었습니다.");
+
+    }
+
+    @Transactional
+    public ResponseEntity<?> requestDecline(Long requestId) {
+
+        PermissionRequest permissionRequest = permissionRequestRepository.findById(requestId).orElse(null);
+
+        permissionRequestRepository.delete(permissionRequest);
+
+        return response.success("요청이 거절되었습니다.");
+
     }
 }

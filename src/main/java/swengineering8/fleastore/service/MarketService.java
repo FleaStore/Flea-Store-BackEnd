@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import swengineering8.fleastore.domain.Booth;
-import swengineering8.fleastore.domain.BoothImgFile;
 import swengineering8.fleastore.domain.Market;
 import swengineering8.fleastore.domain.MarketImgFile;
 import swengineering8.fleastore.domain.Repository.MarketImgFileRepository;
@@ -52,7 +50,7 @@ public class MarketService {
         List<Market> resultMarketList = marketList.getContent();
         ArrayList<MarketDto> responseList = new ArrayList<>();
         for( Market m : resultMarketList){
-            MarketDto marketdto = new MarketDto(m.getId(), m.getName(), m.getAddress(), m.getStart_date(), m.getEnd_date(), m.getInfo(), m.getRelated_url(), getMarketImages(m));
+            MarketDto marketdto = new MarketDto(m.getId(), m.getName(), m.getAddress(), m.getStartDate(), m.getEndDate(), m.getInfo(), m.getRelatedUrl(), getMarketImages(m));
             responseList.add(marketdto);
         }
 
@@ -65,7 +63,7 @@ public class MarketService {
     public ResponseEntity<?> getDetailInfo(Long marketId) throws IOException {
         Market market = marketRepository.findById(marketId).orElse(null);
 
-        MarketDto marketdto = new MarketDto(market.getId(), market.getName(), market.getAddress(), market.getStart_date(), market.getEnd_date(), market.getInfo(), market.getRelated_url(), getMarketImages(market));
+        MarketDto marketdto = new MarketDto(market.getId(), market.getName(), market.getAddress(), market.getStartDate(), market.getEndDate(), market.getInfo(), market.getRelatedUrl(), getMarketImages(market));
 
         return response.success(marketdto, "마켓 정보", HttpStatus.OK);
     }

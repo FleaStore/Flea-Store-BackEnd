@@ -28,16 +28,16 @@ public class Market {
     private String address;
 
     @Column
-    private LocalDate start_date;
+    private LocalDate startDate;
 
     @Column
-    private LocalDate end_date;
+    private LocalDate endDate;
 
     @Column
     private String info;
 
     @Column
-    private String related_url;
+    private String relatedUrl;
 
     @ManyToOne
     @JsonBackReference
@@ -61,24 +61,24 @@ public class Market {
     public void addImgFile(MarketImgFile marketImgFile){
         this.imgFiles.add(marketImgFile);
     }
-    public void updateMarket(String name, String info, String address, LocalDate start_date, LocalDate end_date, String related_url){
+    public void updateMarket(String name, String info, String address, LocalDate startDate, LocalDate endDate, String relatedUrl){
         this.name = name;
         this.info = info;
         this.address = address;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.related_url = related_url;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.relatedUrl = relatedUrl;
     }
 
-//    @Builder
-//    public Market(String name, String address, String info, String related_url, LocalDateTime start_date, LocalDateTime end_date, Member member){
-//        this.name = name;
-//        this.address = address;
-//        this.info = info;
-//        this.related_url = related_url;
-//        this.start_date = start_date;
-//        this.end_date = end_date;
-//        this.member = member;
-//    }
+    @Builder
+    public Market(String name, String address, String info, String relatedUrl, LocalDate startDate, LocalDate endDate, Member member){
+        this.name = name;
+        this.address = address;
+        this.info = info;
+        this.relatedUrl = relatedUrl;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.member = member;
+    }
 
 }

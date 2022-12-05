@@ -6,13 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import swengineering8.fleastore.dto.LoginDto;
-import swengineering8.fleastore.dto.Response;
-import swengineering8.fleastore.dto.MemberDto;
-import swengineering8.fleastore.dto.TokenDto;
+import swengineering8.fleastore.domain.PermissionRequest;
+import swengineering8.fleastore.dto.*;
 import swengineering8.fleastore.service.AuthService;
 import swengineering8.fleastore.util.Helper;
 
+import java.security.Principal;
 import java.util.Map;
 
 @Slf4j
@@ -103,9 +102,35 @@ public class AuthController {
      * 인증 이메일 전송
      */
     @PostMapping("/users/send-email")
-    public ResponseEntity<?> emailAuthentication(@RequestBody Map<String, String> param){
+    public ResponseEntity<?> emailAuthentication(@RequestBody Map<String, String> param) {
         String email = param.get("email");
 
         return authService.emailAuthentication(email);
     }
+
+    @GetMapping("/permission-list")
+    public ResponseEntity<?> getPermissionRequestList() {
+
+        return authService.getPermissionRequestList();
+    }
+
+    @PostMapping("/permission-detail")
+    public ResponseEntity<?> requestDetail(@RequestParam Long requestId) {
+
+        return authService.requestDetail(requestId);
+    }
+
+    @PostMapping("/permission-accept")
+    public ResponseEntity<?> requestAccept(@RequestParam Long requestId) {
+
+        return authService.requestAccept(requestId);
+    }
+
+    @PostMapping("/permission-decline")
+    public ResponseEntity<?> requestDecline(@RequestParam Long requestId) {
+
+        return authService.requestDecline(requestId);
+    }
+
+
 }
