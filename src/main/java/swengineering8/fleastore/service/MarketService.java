@@ -17,12 +17,14 @@ import swengineering8.fleastore.domain.Repository.MarketImgFileRepository;
 import swengineering8.fleastore.domain.Repository.MarketRepository;
 import swengineering8.fleastore.dto.MarketDto;
 import swengineering8.fleastore.dto.MarketUpdateDto;
+import swengineering8.fleastore.dto.MonthlyMarketDto;
 import swengineering8.fleastore.dto.Response;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -200,5 +202,25 @@ public class MarketService {
         return base64Images;
     }
 
+    public ResponseEntity getMarketByMonth(int year, int month) {
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate;
+        List<MonthlyMarketDto> results = new ArrayList<>();
 
+        if (month == 2) {
+            endDate = LocalDate.of(year, month, 28);
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            endDate = LocalDate.of(year, month, 30);
+        } else{
+            endDate = LocalDate.of(year, month, 31);
+        }
+
+        List<Market> marketsByMonth = marketRepository.findMarketByStartDateBetween(startDate, endDate);
+
+        for (Market market : marketsByMonth) {
+            results.add(new MonthlyMarketDto(market.getId(), market.getName(), market.getEndDate()));
+        }
+
+        return response.success(results, "월별 마켓 리스트", HttpStatus.OK);
+    }
 }
