@@ -16,11 +16,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 @ApiModel(value = "마켓 조회,추가 정보", description = "마켓 조회,추가에 필요한 데이터")
 @Getter
-@AllArgsConstructor
 @ToString
 public class MarketDto {
 
-    private Long MarketId;
+    private Long marketId;
     @ApiModelProperty(value = "마켓 이름", required = true, example = "Flea store")
     private String name;
     @ApiModelProperty(value = "마켓 주", required = true, example = "경기도 수원시")
@@ -45,18 +44,20 @@ public class MarketDto {
     private List<String> existingImages;
 
     public void setMarketId(Long marketId){
-        MarketId = marketId;
+        marketId = marketId;
     }
 
 
-//    @Builder
-//    public Market toEntity() {
-//        return Market.builder()
-//                .name(name)
-//                .address(address)
-//                .startDate(startDate)
-//                .endDate(endDate)
-//                .info(info)
-//                .build();
-//    }
+    @Builder
+    public MarketDto(Long marketId, String name, String address, LocalDate startDate,
+                     LocalDate endDate, String info, String relatedUrl, List<String> existingImages) {
+        this.marketId = marketId;
+        this.name = name;
+        this.address = address;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.info = info;
+        this.relatedUrl = relatedUrl;
+        this.existingImages = existingImages;
+    }
 }

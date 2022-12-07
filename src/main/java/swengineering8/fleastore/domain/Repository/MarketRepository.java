@@ -14,5 +14,6 @@ import java.util.Optional;
 public interface MarketRepository extends JpaRepository<Market, Long> {
 
     List<Market> findMarketByStartDateBetween(LocalDate startDate, LocalDate endDate);
+
     //Page<Market> findAll(Pageable pageable);
 }

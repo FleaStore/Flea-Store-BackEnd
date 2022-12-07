@@ -202,10 +202,10 @@ public class MarketService {
         return base64Images;
     }
 
-    public ResponseEntity getMarketByMonth(int year, int month) {
+    public ResponseEntity getMarketByMonth(int year, int month) throws IOException {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate;
-        List<MonthlyMarketDto> results = new ArrayList<>();
+        List<MarketDto> results = new ArrayList<>();
 
         if (month == 2) {
             endDate = LocalDate.of(year, month, 28);
@@ -218,7 +218,20 @@ public class MarketService {
         List<Market> marketsByMonth = marketRepository.findMarketByStartDateBetween(startDate, endDate);
 
         for (Market market : marketsByMonth) {
-            results.add(new MonthlyMarketDto(market.getId(), market.getName(), market.getEndDate()));
+            List<String> marketImages = getMarketImages(market);
+
+            MarketDto marketDto = MarketDto.builder()
+                    .marketId(market.getId())
+                    .name(market.getName())
+                    .address(market.getAddress())
+                    .startDate(market.getStartDate())
+                    .endDate(market.getEndDate())
+                    .info(market.getInfo())
+                    .relatedUrl(market.getRelatedUrl())
+                    .existingImages(marketImages)
+                    .build();
+
+            results.add(marketDto);
         }
 
         return response.success(results, "월별 마켓 리스트", HttpStatus.OK);

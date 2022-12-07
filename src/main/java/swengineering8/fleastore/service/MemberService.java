@@ -12,10 +12,7 @@ import swengineering8.fleastore.domain.Repository.FavoriteRepository;
 import swengineering8.fleastore.domain.Repository.MarketRepository;
 import swengineering8.fleastore.domain.Repository.MemberRepository;
 import swengineering8.fleastore.domain.Repository.PermissionRequestRepository;
-import swengineering8.fleastore.dto.MemberDto;
-import swengineering8.fleastore.dto.PermissionRequestDto;
-import swengineering8.fleastore.dto.Response;
-import swengineering8.fleastore.dto.SimpleFavoriteDto;
+import swengineering8.fleastore.dto.*;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -99,12 +96,24 @@ public class MemberService {
     public ResponseEntity<?> getFavoriteMarkets(Long memberId) throws IOException {
         Member member = memberRepository.findById(memberId).orElse(null);
         List<Favorite> favorites = member.getFavorites();
-        List<SimpleFavoriteDto> results = new ArrayList<>();
+        List<MarketDto> results = new ArrayList<>();
 
         for (Favorite favorite : favorites) {
             Market market = favorite.getMarket();
+            List<String> marketImages = marketService.getMarketImages(market);
 
-            results.add(new SimpleFavoriteDto(market.getId(), market.getMember().getNickname(), market.getName(), marketService.getMarketImages(market).get(0)));
+            MarketDto marketDto = MarketDto.builder()
+                    .marketId(market.getId())
+                    .name(market.getName())
+                    .address(market.getAddress())
+                    .startDate(market.getStartDate())
+                    .endDate(market.getEndDate())
+                    .info(market.getInfo())
+                    .relatedUrl(market.getRelatedUrl())
+                    .existingImages(marketImages)
+                    .build();
+
+            results.add(marketDto);
         }
 
         return response.success(results, "좋아요 가게 목록", HttpStatus.OK);

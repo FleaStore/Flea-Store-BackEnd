@@ -113,7 +113,7 @@ public class MarketController {
     }
 
     @GetMapping("/monthly")
-    public ResponseEntity<?> getMarketByMonth(@RequestParam int year, @RequestParam int month) {
+    public ResponseEntity<?> getMarketByMonth(@RequestParam int year, @RequestParam int month) throws IOException {
 
         return marketService.getMarketByMonth(year, month);
     }
